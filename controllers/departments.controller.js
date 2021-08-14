@@ -20,7 +20,7 @@ exports.getRandom = async (req, res) => {
     catch(err) {
       res.status(500).json({ message: err });
     }
-  }
+  };
 exports.getOne = async (req, res) => {
     try {
       const dep = await Department.findById(req.params.id);
