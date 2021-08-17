@@ -15,7 +15,7 @@ describe('Employee', () => {
           const testDepOne = new Employee({ firstName: 'Employee #1', lastName: 'Employee #1', department: 'Employee #1' });
           await testDepOne.save();
       
-          const testDepTwo = new Employee({ firstName: 'Employee #2', lastName: 'Employee #1', department: 'Employee #1' });
+          const testDepTwo = new Employee({ firstName: 'Employee #2', lastName: 'Employee #2', department: 'Employee #2' });
           await testDepTwo.save();
         });
         it('should return all the data with "find" method', async () => {
@@ -23,14 +23,14 @@ describe('Employee', () => {
             const expectedLength = 2;
             expect(employees.length).to.be.equal(expectedLength);
           });
-        // it('should return a proper document by "firstName,lastName,department" with "findOne" method', async () => {
-        //     const expectedEmployeeData = { firstName: 'Employee #1', lastName: 'Test1', department: 'Test1'};
-        //     for (let key in expectedEmployeeData) {
-        //       const value = expectedEmployeeData[key];
-        //       const employee = await Employee.findOne({ [key]: value });
-        //       expect(employee.firstName).to.be.equal(expectedEmployeeData.firstName);
-        //     }
-        // });
+        it('should return a proper document by "firstName,lastName,department" with "findOne" method', async () => {
+            const expectedEmployeeData = { firstName: 'Employee #1', lastName: 'Employee #1', department: 'Employee #1'};
+            for (let key in expectedEmployeeData) {
+              const value = expectedEmployeeData[key];
+              const employee = await Employee.findOne({ [key]: value });
+              expect(employee.firstName).to.be.equal(expectedEmployeeData.firstName);
+            }
+        });
         after(async () => {
             await Employee.deleteMany();
         });
@@ -60,14 +60,14 @@ describe('Employee', () => {
             const updatedEmployee = await Employee.findOne({ firstName: '=Employee #1=' });
             expect(updatedEmployee).to.not.be.null;
         });
-        // it('should properly update one document with "save" method', async () => {
-        //     const employee = await Employee.findOne({ firstName: '=Employee #1=' });
-        //     employee.firstName = { firstName: '=Employee #1='};
-        //     await employee.save();
+        it('should properly update one document with "save" method', async () => {
+            const employee = await Employee.findOne({ firstName: 'Employee #1' });
+            employee.firstName = '=Employee #1=';
+            await employee.save();
           
-        //     const updatedEmployee = await Employee.findOne({ firstName: '=Employee #1=' });
-        //     expect(updatedEmployee).to.not.be.null;
-        //   });
+            const updatedEmployee = await Employee.findOne({ firstName: '=Employee #1=' });
+            expect(updatedEmployee).to.not.be.null;
+          });
           it('should properly update multiple documents with "updateMany" method', async () => {
             await Employee.updateMany({}, { $set: { firstName: 'Updated!' }});
             const employees = await Employee.find();
